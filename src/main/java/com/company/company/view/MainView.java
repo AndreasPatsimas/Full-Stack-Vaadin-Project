@@ -31,7 +31,7 @@ public class MainView extends VerticalLayout{
 	private RestClient rc = new RestClient();
 	
 	public MainView() {
-		add(new Button("Click me", e -> Notification.show("aaaaa")));
+		add(new Button("Click me", e -> Notification.show("That's GREAT!!!")));
 		
 		filterText.setPlaceholder("Filter by name...");
         filterText.setClearButtonVisible(true);
