@@ -83,6 +83,11 @@ public class Employee {
 		return true;
 	}
 
+	/*@Override
+	public Employee clone() throws CloneNotSupportedException {
+		return (Employee) super.clone();
+	}*/
+
 	@Override
 	public String toString() {
 		return "Employee [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";

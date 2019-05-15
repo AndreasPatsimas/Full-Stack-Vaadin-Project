@@ -30,6 +30,12 @@ public class EmployeeRestController {
 		return employeeService.findAll();
 	}
 	
+	@GetMapping(value = "employees/{word}")
+	public List<Employee> getEmployeesFiltered(@PathVariable("word") String word){
+
+		return employeeService.findByLastNameStartsWithIgnoreCase(word);
+	}
+	
 	@GetMapping(value = "employee/{employeeId}")
 	public Employee getEmployee(@PathVariable("employeeId") int emplId) {
 		

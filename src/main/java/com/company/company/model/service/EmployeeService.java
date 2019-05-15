@@ -8,6 +8,8 @@ public interface EmployeeService {
 	
 	public List<Employee> findAll();
 	
+	public List<Employee> findByLastNameStartsWithIgnoreCase(String lastName);
+	
 	public Employee findById(int emplId);
 	
 	public void saveOrUpdateEmployee(Employee employee);

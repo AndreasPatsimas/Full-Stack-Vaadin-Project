@@ -55,4 +55,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeRepository.deleteById(emplId);
 	}
 
+	@Override
+	public List<Employee> findByLastNameStartsWithIgnoreCase(String lastName) {
+		
+		return employeeRepository.findByLastNameStartsWithIgnoreCase(lastName);
+	}
+
 }

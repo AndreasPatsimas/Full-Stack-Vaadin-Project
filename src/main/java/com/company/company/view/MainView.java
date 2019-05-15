@@ -15,17 +15,27 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 @Route("")
 public class MainView extends VerticalLayout{
 	
-
+	private List<Employee> employees = new ArrayList<>();
+	
 	private Grid<Employee> grid = new Grid<>(Employee.class);
+	
+	private TextField filterText = new TextField();
 	
 	public MainView() {
 		add(new Button("Click me", e -> Notification.show("aaaaa")));
 		
+		filterText.setPlaceholder("Filter by name...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.EAGER);
+        filterText.addValueChangeListener(e -> employeeList());
+        
 		grid.setColumns("firstName", "lastName", "email");
 		
 		
@@ -34,7 +44,7 @@ public class MainView extends VerticalLayout{
 		
 		String data = rc.getData("http://localhost:8080/employees");
 		
-		List<Employee> employees = new ArrayList<>();
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			Employee[] empl = mapper.readValue(data, Employee[].class);
@@ -45,12 +55,16 @@ public class MainView extends VerticalLayout{
 			e.printStackTrace();
 		}
 		
-		add(grid);
+		add(filterText,grid);
 		
-		setSizeFull();
+		setSizeFull();	
 		
-		grid.setItems(employees);
+		employeeList();
+		
 	}
 	
+	public void employeeList() {
+		grid.setItems(employees);
+	}
 	
 }
