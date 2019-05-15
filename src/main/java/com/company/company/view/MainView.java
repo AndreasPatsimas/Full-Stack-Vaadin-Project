@@ -28,20 +28,18 @@ public class MainView extends VerticalLayout{
 	
 	private TextField filterText = new TextField();
 	
+	private RestClient rc = new RestClient();
+	
 	public MainView() {
 		add(new Button("Click me", e -> Notification.show("aaaaa")));
 		
 		filterText.setPlaceholder("Filter by name...");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
-        filterText.addValueChangeListener(e -> employeeList());
+        filterText.addValueChangeListener(e -> employeeFilteredList(e.getValue()));
         
 		grid.setColumns("firstName", "lastName", "email");
-		
-		
-		
-		RestClient rc = new RestClient();
-		
+				
 		String data = rc.getData("http://localhost:8080/employees");
 		
 		
@@ -60,6 +58,27 @@ public class MainView extends VerticalLayout{
 		setSizeFull();	
 		
 		employeeList();
+		
+		
+	}
+	
+	public void employeeFilteredList(String filterText) {
+		
+		List<Employee> employeeList = new ArrayList<>();
+		
+		String data = rc.getData("http://localhost:8080/employees/"+filterText);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			Employee[] empl = mapper.readValue(data, Employee[].class);
+			employeeList.addAll( Arrays.asList( empl ));
+	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		grid.setItems(employeeList);
 		
 	}
 	
