@@ -30,10 +30,22 @@ public class EmployeeRestController {
 		return employeeService.findAll();
 	}
 	
-	@GetMapping(value = "employees/{word}")
-	public List<Employee> getEmployeesFiltered(@PathVariable("word") String word){
+	@GetMapping(value = "employeesf/{word}")
+	public List<Employee> getEmployeesFilteredByFirstName(@PathVariable("word") String word){
 
-		return employeeService.findByLastNameStartsWithIgnoreCase(word);
+		return employeeService.findByFirstNameStartsWithIgnoreCase(word);
+	}
+	
+	@GetMapping(value = "employees/{word}")
+	public List<Employee> getEmployeesFilteredByLastName(@PathVariable("word") String word){
+
+		try {
+			employeeService.findByLastNameStartsWithIgnoreCase(word).get(0);
+			return employeeService.findByLastNameStartsWithIgnoreCase(word);
+		}
+		catch (Exception ex) {
+			return employeeService.findByFirstNameStartsWithIgnoreCase(word);
+		}
 	}
 	
 	@GetMapping(value = "employee/{employeeId}")

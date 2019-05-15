@@ -8,5 +8,7 @@ import com.company.company.model.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
+	List<Employee> findByFirstNameStartsWithIgnoreCase(String firstName);
+	
 	List<Employee> findByLastNameStartsWithIgnoreCase(String lastName);
 }
