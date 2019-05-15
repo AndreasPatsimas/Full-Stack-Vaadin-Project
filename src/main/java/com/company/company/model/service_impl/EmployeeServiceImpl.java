@@ -1,6 +1,7 @@
 package com.company.company.model.service_impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee findById(int emplId) {
 		
-		return null;
+		Optional<Employee> result = employeeRepository.findById(emplId);
+		
+		Employee employee = null;
+		
+		if(result.isPresent()) {
+			employee = result.get();
+		}
+		else {
+			throw new RuntimeException("There is not a product with id - "+emplId);
+		}
+		
+		return employee;
+		
 	}
 
 	@Override
