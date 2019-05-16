@@ -2,7 +2,9 @@ package com.company.company.controllers.rest;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +46,11 @@ public class EmployeeRestController {
 				List<Employee> unionList = new  ArrayList<>(firstNameList.size() + lastNameList.size());
 				unionList.addAll(firstNameList);
 				unionList.addAll(lastNameList);
+				
+				Set<Employee> unionSet = new HashSet<>(unionList);
+				unionList.clear();
+				unionList.addAll(unionSet);
+				
 				return unionList;
 			}
 			else {

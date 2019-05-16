@@ -20,7 +20,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
-@Route("")
+@Route("manager")
 public class MainView extends VerticalLayout{
 	
 	private List<Employee> employees = new ArrayList<>();
