@@ -23,4 +23,19 @@ public class RestClient extends ClientBase {
 		ClientResponse response = super.get(url);
 		return handleResult(response, String.class);
 	}
+	
+	public String postData(String url, Object obj) {
+		ClientResponse response = super.post(url, obj);
+		return handleResult(response, String.class);
+	}
+	
+	public String putData(String url, Object obj) {
+		ClientResponse response = super.put(url, obj);
+		return handleResult(response, String.class);
+	}
+	
+	public String deleteData(String url) {
+		ClientResponse response = super.delete(url);
+		return handleResult(response, String.class);
+	}
 }

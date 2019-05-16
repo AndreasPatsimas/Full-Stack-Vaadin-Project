@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -28,6 +29,8 @@ public class MainView extends VerticalLayout{
 	
 	private TextField filterText = new TextField();
 	
+	private EmployeeForm form = new EmployeeForm(this);
+	
 	private RestClient rc = new RestClient();
 	
 	public MainView() {
@@ -37,6 +40,15 @@ public class MainView extends VerticalLayout{
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> employeeFilteredList(e.getValue()));
+        
+        Button addEmployeeBtn = new Button("Add new employee");
+        addEmployeeBtn.addClickListener(e -> {
+            grid.asSingleSelect().clear();
+            form.setEmployee(new Employee());
+        });
+    	
+        HorizontalLayout toolbar = new HorizontalLayout(filterText,
+        	    addEmployeeBtn);
         
 		grid.setColumns("firstName", "lastName", "email");
 				
@@ -53,13 +65,20 @@ public class MainView extends VerticalLayout{
 			e.printStackTrace();
 		}
 		
-		add(filterText,grid);
-		
 		setSizeFull();	
 		
 		employeeList();
 		
+		HorizontalLayout mainContent = new HorizontalLayout(grid, form);
+		mainContent.setSizeFull();
+		grid.setSizeFull();
+
+		add(toolbar, mainContent);
 		
+		form.setEmployee(null);
+		
+		grid.asSingleSelect().addValueChangeListener(event ->
+        form.setEmployee(grid.asSingleSelect().getValue()));
 	}
 	
 	public void employeeFilteredList(String filterText) {
