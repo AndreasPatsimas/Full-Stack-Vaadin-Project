@@ -1,5 +1,7 @@
 package com.company.company.controllers.rest;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +32,23 @@ public class EmployeeRestController {
 		return employeeService.findAll();
 	}
 	
-	@GetMapping(value = "employeesf/{word}")
-	public List<Employee> getEmployeesFilteredByFirstName(@PathVariable("word") String word){
-
-		return employeeService.findByFirstNameStartsWithIgnoreCase(word);
-	}
 	
 	@GetMapping(value = "employees/{word}")
-	public List<Employee> getEmployeesFilteredByLastName(@PathVariable("word") String word){
+	public List<Employee> getEmployeesFilteredByName(@PathVariable("word") String word){
 
+		List<Employee> firstNameList = employeeService.findByFirstNameStartsWithIgnoreCase(word);
+		List<Employee> lastNameList = employeeService.findByLastNameStartsWithIgnoreCase(word);
 		try {
-			employeeService.findByLastNameStartsWithIgnoreCase(word).get(0);
-			return employeeService.findByLastNameStartsWithIgnoreCase(word);
+			if(!firstNameList.equals(Collections.EMPTY_LIST)
+					|| !lastNameList.equals(Collections.EMPTY_LIST)) {
+				List<Employee> unionList = new  ArrayList<>(firstNameList.size() + lastNameList.size());
+				unionList.addAll(firstNameList);
+				unionList.addAll(lastNameList);
+				return unionList;
+			}
+			else {
+				return employeeService.findByLastNameStartsWithIgnoreCase(word);
+			}
 		}
 		catch (Exception ex) {
 			return employeeService.findByFirstNameStartsWithIgnoreCase(word);

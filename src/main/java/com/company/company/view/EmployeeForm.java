@@ -59,10 +59,10 @@ public class EmployeeForm extends FormLayout {
 	    Employee employee = binder.getBean();
 	    try {
 	    	employee.getEmplId();
-	    	String data = rc.putData("http://localhost:8080/employee", employee);
+	    	rc.putData("http://localhost:8080/employee", employee);
 	    }
 	    catch(Exception ex) {
-	    	String data = rc.postData("http://localhost:8080/employee", employee);
+	    	rc.postData("http://localhost:8080/employee", employee);
 	    }
 	    mainView.employeeList();
 	    setEmployee(null);
@@ -70,8 +70,9 @@ public class EmployeeForm extends FormLayout {
 	}
 	
 	private void delete() {
+		
 		Employee employee = binder.getBean();
-		String data = rc.deleteData("http://localhost:8080/employee/"+employee.getEmplId());
+		rc.deleteData("http://localhost:8080/employee/"+employee.getEmplId());
 	    mainView.employeeList();
 	    setEmployee(null);
 	    UI.getCurrent().getPage().reload();
