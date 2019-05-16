@@ -83,6 +83,17 @@
 			<artifactId>vaadin-confirm-dialog-flow</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-core</artifactId>
+		</dependency>
+
+		
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-login-flow</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
