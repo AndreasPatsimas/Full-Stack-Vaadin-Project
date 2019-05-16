@@ -2,6 +2,7 @@ package com.company.company.view;
 
 import com.company.company.client.RestClient;
 import com.company.company.model.entity.Employee;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -65,6 +66,7 @@ public class EmployeeForm extends FormLayout {
 	    }
 	    mainView.employeeList();
 	    setEmployee(null);
+	    UI.getCurrent().getPage().reload();
 	}
 	
 	private void delete() {
@@ -72,6 +74,7 @@ public class EmployeeForm extends FormLayout {
 		String data = rc.deleteData("http://localhost:8080/employee/"+employee.getEmplId());
 	    mainView.employeeList();
 	    setEmployee(null);
+	    UI.getCurrent().getPage().reload();
 	}
 	
 }
