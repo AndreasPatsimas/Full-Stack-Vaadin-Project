@@ -125,6 +125,7 @@ public class RegisterForm extends VerticalLayout {
 
 					@Override
 					public void onComponentEvent(ComponentEvent event) {
+					//
 					}
 
 				});
