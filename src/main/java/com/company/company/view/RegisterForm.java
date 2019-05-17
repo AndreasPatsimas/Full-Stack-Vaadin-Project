@@ -10,6 +10,8 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -18,7 +20,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
-@Route("")
+@Route("register")
 public class RegisterForm extends VerticalLayout {
 
 	private TextField firstName = new TextField("First name");
@@ -55,10 +57,28 @@ public class RegisterForm extends VerticalLayout {
 	    //addThemeVariants makes the save button prominent by decorating it with a style name
 	    add(firstName, lastName, email, password, buttons,header);
 	    
+	    binder.forField(firstName)
+	    .asRequired("Every employee must have a firstname")
+	    .bind(Employee::getFirstName, Employee::setFirstName);
+	    
+	    binder.forField(lastName)
+	    .asRequired("Every employee must have a lastName")
+	    .bind(Employee::getLastName, Employee::setLastName);
+	    
+	    binder.forField(email)
+	    .asRequired("Every employee must have an email")
+	    .bind(Employee::getEmail, Employee::setEmail);
+	    
+	    binder.forField(password)
+	    .asRequired("Every employee must have a password")
+	    .bind(Employee::getPassword, Employee::setPassword);
+	    
 	    binder.bindInstanceFields(this);
+	  
 	    //The bindInstanceFields(this) method processes all the instance variables that are input fields 
 	    //(for example, TextField) and maps them (matching by name) 
 	    //to the Java properties in the Employee class.
+
 	    
 	    save.addClickListener(event -> confirmSave());
 	    
@@ -68,10 +88,6 @@ public class RegisterForm extends VerticalLayout {
 	    
 	}
 	
-	void routerLink() {
-	    Div menu = new Div();
-	    menu.add(new RouterLink("manager", MainView.class));
-	}
 	
 	private void save() {
 		Employee employee = new Employee();
@@ -93,8 +109,16 @@ public class RegisterForm extends VerticalLayout {
 
 					@Override
 					public void onComponentEvent(ComponentEvent event) {
-						save();
-						save.getUI().ifPresent(ui -> ui.navigate("login"));
+						if(binder.isValid()) {
+							save();
+							save.getUI().ifPresent(ui -> ui.navigate(""));
+						}
+						else {
+							Notification n = new Notification("Please fill in required fields");
+							n.setDuration(3000);
+							n.setPosition(Position.TOP_START);
+							n.open();
+						}
 					}
 
 				}, "Cancel", new ComponentEventListener() {

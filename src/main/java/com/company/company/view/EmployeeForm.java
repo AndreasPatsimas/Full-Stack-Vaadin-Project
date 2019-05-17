@@ -10,6 +10,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog.ConfirmEvent;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -41,6 +43,22 @@ public class EmployeeForm extends FormLayout {
 		// style name
 		add(firstName, lastName, email, password, role, buttons);
 
+		binder.forField(firstName)
+	    .asRequired("Every employee must have a firstname")
+	    .bind(Employee::getFirstName, Employee::setFirstName);
+	    
+	    binder.forField(lastName)
+	    .asRequired("Every employee must have a lastName")
+	    .bind(Employee::getLastName, Employee::setLastName);
+	    
+	    binder.forField(email)
+	    .asRequired("Every employee must have an email")
+	    .bind(Employee::getEmail, Employee::setEmail);
+	    
+	    binder.forField(password)
+	    .asRequired("Every employee must have a password")
+	    .bind(Employee::getPassword, Employee::setPassword);
+		
 		binder.bindInstanceFields(this);
 		// The bindInstanceFields(this) method processes all the instance variables that
 		// are input fields
@@ -113,7 +131,15 @@ public class EmployeeForm extends FormLayout {
 
 					@Override
 					public void onComponentEvent(ComponentEvent event) {
-						save();
+						if(binder.isValid()) {
+							save();
+						}
+						else {
+							Notification n = new Notification("Please fill in required fields");
+							n.setDuration(3000);
+							n.setPosition(Position.TOP_END);
+							n.open();
+						}
 					}
 
 				}, "Cancel", new ComponentEventListener() {
