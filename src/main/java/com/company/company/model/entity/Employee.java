@@ -1,12 +1,19 @@
 package com.company.company.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "employees")
@@ -28,6 +35,17 @@ public class Employee {
 	@NotNull
 	@Column(name = "email")
 	private String email;
+	
+	@NotNull
+	@Column(name = "password")
+	private String password;
+	
+	@NotNull
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name = "role_employees", joinColumns = 
+	@JoinColumn(name = "id_employee"), inverseJoinColumns = @JoinColumn(name = "id_role")
+	)
+	private List<Role> roles;
 
 	public int getEmplId() {
 		return emplId;
@@ -59,6 +77,31 @@ public class Employee {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+	
+	public void addRole(Role role) {
+		
+		if (roles == null) {
+			roles = new ArrayList<>();
+		}
+		
+		roles.add(role);
 	}
 
 	@Override

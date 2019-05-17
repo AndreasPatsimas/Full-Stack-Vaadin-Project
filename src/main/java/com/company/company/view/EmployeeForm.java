@@ -15,6 +15,8 @@ public class EmployeeForm extends FormLayout {
 	private TextField firstName = new TextField("First name");
 	private TextField lastName = new TextField("Last name");
 	private TextField email = new TextField("Email");
+	private TextField password = new TextField("Password");
+	private TextField role = new TextField("Role");
 	
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
@@ -32,12 +34,12 @@ public class EmployeeForm extends FormLayout {
 	    HorizontalLayout buttons = new HorizontalLayout(save, delete);
 	    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 	    //addThemeVariants makes the save button prominent by decorating it with a style name
-	    add(firstName, lastName, email, buttons);
+	    add(firstName, lastName, email, password, role, buttons);
 	    
 	    binder.bindInstanceFields(this);
 	    //The bindInstanceFields(this) method processes all the instance variables that are input fields 
 	    //(for example, TextField) and maps them (matching by name) 
-	    //to the Java properties in the Customer class.
+	    //to the Java properties in the Employee class.
 	    
 	    save.addClickListener(event -> save());
 	    

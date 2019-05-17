@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.company.company.client.RestClient;
 import com.company.company.model.entity.Employee;
+import com.company.company.model.entity.Role;
 import com.company.company.model.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.button.Button;
@@ -50,7 +51,7 @@ public class MainView extends VerticalLayout{
         HorizontalLayout toolbar = new HorizontalLayout(filterText,
         	    addEmployeeBtn);
         
-		grid.setColumns("firstName", "lastName", "email");
+		grid.setColumns("firstName", "lastName", "email", "password", "roles");
 				
 		String data = rc.getData("http://localhost:8080/employees");
 		

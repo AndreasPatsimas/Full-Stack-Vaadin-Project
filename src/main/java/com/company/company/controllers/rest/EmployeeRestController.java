@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.company.company.encryption.CryptoConverter;
 import com.company.company.model.entity.Employee;
+import com.company.company.model.entity.Role;
 import com.company.company.model.service.EmployeeService;
 
 @RestController
@@ -75,6 +77,10 @@ public class EmployeeRestController {
 		
 		employee.setEmplId(0);
 		
+		employee.setPassword(CryptoConverter.encrypt(employee.getPassword()));
+		
+		employee.addRole(Role.EMPLOYEE);
+		
 		employeeService.saveOrUpdateEmployee(employee);
 		
 		return employee;
@@ -82,6 +88,8 @@ public class EmployeeRestController {
 	
 	@PutMapping(value = "employee")
 	public Employee editEmployee (@RequestBody Employee employee) {
+		
+		employee.setPassword(CryptoConverter.encrypt(employee.getPassword()));
 		
 		employeeService.saveOrUpdateEmployee(employee);
 		
