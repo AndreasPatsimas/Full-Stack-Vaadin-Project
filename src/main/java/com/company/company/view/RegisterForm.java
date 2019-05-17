@@ -2,15 +2,17 @@ package com.company.company.view;
 
 import com.company.company.client.RestClient;
 import com.company.company.model.entity.Employee;
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
@@ -22,7 +24,7 @@ public class RegisterForm extends VerticalLayout {
 	private TextField firstName = new TextField("First name");
 	private TextField lastName = new TextField("Last name");
 	private TextField email = new TextField("Email");
-	private TextField password = new TextField("Password");
+	private PasswordField password = new PasswordField("password");
 	
 	Header header = new Header();
 	
@@ -58,13 +60,12 @@ public class RegisterForm extends VerticalLayout {
 	    //(for example, TextField) and maps them (matching by name) 
 	    //to the Java properties in the Employee class.
 	    
-	    save.addClickListener(event -> save());
+	    save.addClickListener(event -> confirmSave());
 	    
-	    save.addClickListener( e-> {
+	    /*save.addClickListener( e-> {
 	        save.getUI().ifPresent(ui -> ui.navigate("login"));
-	   });
+	   });*/
 	    
-	    //clear.addClickListener(event -> clear());
 	}
 	
 	void routerLink() {
@@ -86,8 +87,25 @@ public class RegisterForm extends VerticalLayout {
 	    }
 	}
 	
-	public void clear() {
-		
+	private void confirmSave() {
+		ConfirmDialog dialog = new ConfirmDialog("Confirm save", "Are you sure you want to save your changes?",
+				"Save", new ComponentEventListener() {
+
+					@Override
+					public void onComponentEvent(ComponentEvent event) {
+						save();
+						save.getUI().ifPresent(ui -> ui.navigate("login"));
+					}
+
+				}, "Cancel", new ComponentEventListener() {
+
+					@Override
+					public void onComponentEvent(ComponentEvent event) {
+					}
+
+				});
+		dialog.open();
 	}
+	
 	
 }
