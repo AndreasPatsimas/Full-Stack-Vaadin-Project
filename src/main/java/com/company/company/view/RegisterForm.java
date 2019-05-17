@@ -124,7 +124,7 @@ public class RegisterForm extends VerticalLayout {
 				}, "Cancel", new ComponentEventListener() {
 
 					@Override
-					public void onComponentEvent(ComponentEvent event) {
+					public void onComponentEvent(ComponentEvent event) {//gvfh
 					}
 
 				});
