@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,15 +22,19 @@ import com.company.company.encryption.CryptoConverter;
 import com.company.company.model.entity.Employee;
 import com.company.company.model.entity.Role;
 import com.company.company.model.service.EmployeeService;
+import com.company.company.model.service.TokenService;
 
 @RestController
 public class EmployeeRestController {
 
 	EmployeeService employeeService;
+	
+	TokenService tokenService;
 
 	@Autowired
-	public EmployeeRestController(EmployeeService employeeService) {
+	public EmployeeRestController(EmployeeService employeeService, TokenService tokenService) {
 		this.employeeService = employeeService;
+		this.tokenService = tokenService;
 	}
 	
 	@GetMapping(value = "employees")
@@ -105,6 +110,10 @@ public class EmployeeRestController {
 		employee.addRole(Role.EMPLOYEE);
 		
 		employeeService.saveOrUpdateEmployee(employee);
+		
+		String uuid = UUID.randomUUID().toString();
+		
+		tokenService.createToken(uuid, employee);
 		
 		return employee;
 	}
