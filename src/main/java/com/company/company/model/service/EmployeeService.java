@@ -14,6 +14,8 @@ public interface EmployeeService {
 	
 	public Employee findById(int emplId);
 	
+	Employee findByEmail(String email);
+	
 	public void saveOrUpdateEmployee(Employee employee);
 	
 	public void deleteEmployee(int emplId);

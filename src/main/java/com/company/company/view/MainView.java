@@ -62,7 +62,6 @@ public class MainView extends VerticalLayout{
 			employees.addAll( Arrays.asList( empl ));
 	
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -94,7 +93,6 @@ public class MainView extends VerticalLayout{
 			employeeList.addAll( Arrays.asList( empl ));
 	
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

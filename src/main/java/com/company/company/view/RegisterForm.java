@@ -26,9 +26,7 @@ public class RegisterForm extends VerticalLayout {
 	private TextField firstName = new TextField("First name");
 	private TextField lastName = new TextField("Last name");
 	private TextField email = new TextField("Email");
-	private PasswordField password = new PasswordField("password");
-	
-	Header header = new Header();
+	private PasswordField password = new PasswordField("Password");
 	
 	private Button save = new Button("Save");
 	private Button clear = new Button("Clear", event -> {
@@ -40,13 +38,11 @@ public class RegisterForm extends VerticalLayout {
 	
 	private Binder<Employee> binder = new Binder<>(Employee.class);
 	
-	//private MainView mainView;
 	
 	private RestClient rc = new RestClient();
 
 	public RegisterForm() {
 		
-		VerticalLayout layout = new VerticalLayout();
 
 		// label will only take the space it needs
 		Label label = new Label("Register Form");
@@ -54,8 +50,8 @@ public class RegisterForm extends VerticalLayout {
 		
 		HorizontalLayout buttons = new HorizontalLayout(save, clear);
 	    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-	    //addThemeVariants makes the save button prominent by decorating it with a style name
-	    add(firstName, lastName, email, password, buttons,header);
+
+	    add(firstName, lastName, email, password, buttons);
 	    
 	    binder.forField(firstName)
 	    .asRequired("Every employee must have a firstname")
@@ -81,10 +77,6 @@ public class RegisterForm extends VerticalLayout {
 
 	    
 	    save.addClickListener(event -> confirmSave());
-	    
-	    /*save.addClickListener( e-> {
-	        save.getUI().ifPresent(ui -> ui.navigate("login"));
-	   });*/
 	    
 	}
 	

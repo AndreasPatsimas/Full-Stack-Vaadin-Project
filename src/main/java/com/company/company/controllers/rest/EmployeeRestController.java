@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +33,8 @@ public class EmployeeRestController {
 	}
 	
 	@GetMapping(value = "employees")
-	public List<Employee> getEmployees(){
-
+	public List<Employee> getEmployees(HttpSession session){
+		
 		return employeeService.findAll();
 	}
 	
@@ -70,6 +72,35 @@ public class EmployeeRestController {
 		Employee employee = employeeService.findById(emplId);
 		
 		return employee;
+	}
+	
+	@GetMapping(value = "login/{email}/{password}")
+	public Employee checkCredentials(@PathVariable("email") String email, @PathVariable("password") String password, 
+			HttpSession session) {
+		
+		Employee employee = employeeService.findByEmail(email);
+		
+		try {
+			if(employee.getEmail().equals(email) && 
+				CryptoConverter.decrypt(employee.getPassword()).equals(password)) {
+				
+				if(employee.getRoles().get(0).getRid() == 1) {
+					session.setAttribute("logManager", employee);
+				}
+				else {
+					session.setAttribute("logEmployee", employee);
+				}
+				
+				return employee;
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception ex) {
+			return null;
+		}
+
 	}
 	
 	@PostMapping(value = "employee")
