@@ -75,21 +75,13 @@ public class EmployeeRestController {
 	}
 	
 	@GetMapping(value = "login/{email}/{password}")
-	public Employee checkCredentials(@PathVariable("email") String email, @PathVariable("password") String password, 
-			HttpSession session) {
+	public Employee checkCredentials(@PathVariable("email") String email, @PathVariable("password") String password) {
 		
 		Employee employee = employeeService.findByEmail(email);
 		
 		try {
 			if(employee.getEmail().equals(email) && 
 				CryptoConverter.decrypt(employee.getPassword()).equals(password)) {
-				
-				if(employee.getRoles().get(0).getRid() == 1) {
-					session.setAttribute("logManager", employee);
-				}
-				else {
-					session.setAttribute("logEmployee", employee);
-				}
 				
 				return employee;
 			}

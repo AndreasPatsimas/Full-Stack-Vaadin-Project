@@ -7,10 +7,13 @@ import com.vaadin.flow.router.Route;
 @Route("employee")
 public class EmployeePage extends VerticalLayout {
 
-	Button employee = new Button("Wait employee");
+	Button button = new Button("Wait employee");
 
 	public EmployeePage() {
-		add(employee);
+		
+		button.addClickListener(e -> e.getButton());
+		
+		add(button);
 	}
 	
 	

@@ -3,10 +3,7 @@ package com.company.company.view;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpSession;
-
 import com.company.company.client.RestClient;
-import com.company.company.encryption.CryptoConverter;
 import com.company.company.model.entity.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.button.Button;
