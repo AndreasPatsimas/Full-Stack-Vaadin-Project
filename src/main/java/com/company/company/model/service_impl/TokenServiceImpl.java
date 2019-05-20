@@ -24,7 +24,7 @@ public class TokenServiceImpl implements TokenService {
 		this.employeeRepository = employeeRepository;
 	}
 
-	@Override
+	/*@Override
 	public Employee getEmployeeByToken(String uuid) {
 		
 		Optional<Token> tokenResult = tokenRepository.findById(uuid);
@@ -39,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
 		}
 		
 		return token.getEmployee();
-	}
+	}*/
 
 	@Override
 	public void touchToken(String uuid) {
@@ -55,6 +55,12 @@ public class TokenServiceImpl implements TokenService {
 	public void deleteToken(String uuid) {
 		
 		tokenRepository.deleteById(uuid);
+	}
+
+	@Override
+	public Token getTokenByEmployeeId(int emplId) {
+		
+		return tokenRepository.getTokenByEmployeeId(emplId);
 	}
 
 }

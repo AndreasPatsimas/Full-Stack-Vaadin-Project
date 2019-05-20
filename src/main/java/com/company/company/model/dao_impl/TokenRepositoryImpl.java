@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,39 @@ public class TokenRepositoryImpl implements TokenRepository {
 	@PersistenceContext
     private EntityManager entityManager;
 	
+
+	@Override
+	@Transactional
+	public void createToken(String uuid, Employee employee) {
+		
+		entityManager.createNativeQuery("INSERT INTO token (employee_id, uuid, last_access_time) VALUES (?,?,now())")
+	      .setParameter(1, employee.getEmplId())
+	      .setParameter(2, uuid)
+	      .executeUpdate();
+	}
+
+	@Override
+	@Transactional
+	public void touchToken(String uuid) {
+		
+		entityManager.createNativeQuery("UPDATE token SET last_access_time = now() WHERE uuid = ?")
+	      .setParameter(1, uuid)
+	      .executeUpdate();
+	}
+
+	/*@Override
+	@Transactional
+	public Token getTokenByEmployeeId(int emplId) {
+		
+		//Token token = entityManager.find(Token.class, emplId);
+		
+		entityManager.createNativeQuery("SELECT * FROM token WHERE employee_id = ?")
+	      .setParameter(1, emplId)
+	      .getSingleResult();
+		
+		return null;
+	}*/
+
 	@Override
 	public List<Token> findAll() {
 		// TODO Auto-generated method stub
@@ -52,7 +86,7 @@ public class TokenRepositoryImpl implements TokenRepository {
 	@Override
 	public void flush() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -64,13 +98,13 @@ public class TokenRepositoryImpl implements TokenRepository {
 	@Override
 	public void deleteInBatch(Iterable<Token> entities) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteAllInBatch() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -124,25 +158,25 @@ public class TokenRepositoryImpl implements TokenRepository {
 	@Override
 	public void deleteById(String id) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void delete(Token entity) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteAll(Iterable<? extends Token> entities) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -170,22 +204,18 @@ public class TokenRepositoryImpl implements TokenRepository {
 	}
 
 	@Override
-	@Transactional
-	public void createToken(String uuid, Employee employee) {
+	public Token getTokenByEmployeeId(int emplId) {
 		
-		entityManager.createNativeQuery("INSERT INTO token (uuid, employee_id, last_access_time) VALUES (?,?,now())")
-	      .setParameter(1, uuid)
-	      .setParameter(2, employee.getEmplId())
-	      .executeUpdate();
+		String sql = "SELECT * FROM token WHERE employee_id = ?";
+		
+		Query query = entityManager.createNativeQuery(sql, Token.class);
+		
+		query.setParameter(1, emplId);
+		
+		Token token = (Token) query.getSingleResult();
+		
+		return token;
 	}
 
-	@Override
-	@Transactional
-	public void touchToken(String uuid) {
-		
-		entityManager.createNativeQuery("UPDATE token SET last_access_time = now() WHERE uuid = ?")
-	      .setParameter(1, uuid)
-	      .executeUpdate();
-	}
 
 }

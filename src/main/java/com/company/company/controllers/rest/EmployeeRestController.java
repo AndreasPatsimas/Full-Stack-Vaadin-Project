@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.company.encryption.CryptoConverter;
 import com.company.company.model.entity.Employee;
 import com.company.company.model.entity.Role;
+import com.company.company.model.entity.Token;
 import com.company.company.model.service.EmployeeService;
 import com.company.company.model.service.TokenService;
 
@@ -130,7 +131,7 @@ public class EmployeeRestController {
 	
 	@DeleteMapping(value = "employee/{employeeId}")
 	public String deleteEmployee(@PathVariable("employeeId") int emplId) {
-		
+			
 		employeeService.deleteEmployee(emplId);
 		
 		return "Deleted Employee with id -"+emplId;
