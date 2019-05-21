@@ -56,7 +56,7 @@ public class EmployeeRestController {
 				List<Employee> unionList = new  ArrayList<>(firstNameList.size() + lastNameList.size());
 				unionList.addAll(firstNameList);
 				unionList.addAll(lastNameList);
-				
+				//use Set to avoid repeated elements
 				Set<Employee> unionSet = new HashSet<>(unionList);
 				unionList.clear();
 				unionList.addAll(unionSet);
