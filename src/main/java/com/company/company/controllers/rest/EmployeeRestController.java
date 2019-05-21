@@ -89,6 +89,17 @@ public class EmployeeRestController {
 			if(employee.getEmail().equals(email) && 
 				CryptoConverter.decrypt(employee.getPassword()).equals(password)) {
 				
+				try {
+					Token token = tokenService.getTokenByEmployeeId(employee.getEmplId());
+					tokenService.touchToken(token.getUuId());
+				}
+				catch(Exception ex) {
+					
+					String uuid = UUID.randomUUID().toString();
+					
+					tokenService.createToken(uuid, employee);
+				}
+
 				return employee;
 			}
 			else {
@@ -101,6 +112,16 @@ public class EmployeeRestController {
 
 	}
 	
+	@GetMapping(value = "logout/{emplId}")
+	public String logout(@PathVariable("emplId") int emplId) {
+
+		Token token = tokenService.getTokenByEmployeeId(emplId);
+		
+		tokenService.deleteToken(token.getUuId());
+		
+		return "Token was destroyed with employee -id: "+emplId;
+	}
+	
 	@PostMapping(value = "employee")
 	public Employee saveEmployee (@RequestBody Employee employee) {
 		
@@ -111,10 +132,6 @@ public class EmployeeRestController {
 		employee.addRole(Role.EMPLOYEE);
 		
 		employeeService.saveOrUpdateEmployee(employee);
-		
-		String uuid = UUID.randomUUID().toString();
-		
-		tokenService.createToken(uuid, employee);
 		
 		return employee;
 	}

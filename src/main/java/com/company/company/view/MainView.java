@@ -35,7 +35,7 @@ public class MainView extends VerticalLayout{
 	private RestClient rc = new RestClient();
 	
 	public MainView() {
-		add(new Button("Click me", e -> Notification.show("That's GREAT!!!")));
+		add(new Button("Logout", e -> logout()));
 		
 		filterText.setPlaceholder("Filter by name...");
         filterText.setClearButtonVisible(true);
@@ -79,6 +79,8 @@ public class MainView extends VerticalLayout{
 		
 		grid.asSingleSelect().addValueChangeListener(event ->
         form.setEmployee(grid.asSingleSelect().getValue()));
+		
+		
 	}
 	
 	public void employeeFilteredList(String filterText) {
@@ -102,6 +104,10 @@ public class MainView extends VerticalLayout{
 	
 	public void employeeList() {
 		grid.setItems(employees);
+	}
+	
+	void logout() {
+		
 	}
 	
 }

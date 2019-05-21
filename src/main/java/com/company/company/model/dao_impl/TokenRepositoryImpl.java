@@ -45,6 +45,20 @@ public class TokenRepositoryImpl implements TokenRepository {
 	      .setParameter(1, uuid)
 	      .executeUpdate();
 	}
+	
+	@Override
+	public Token getTokenByEmployeeId(int emplId) {
+		
+		String sql = "SELECT * FROM token WHERE employee_id = ?";
+		
+		Query query = entityManager.createNativeQuery(sql, Token.class);
+		
+		query.setParameter(1, emplId);
+		
+		Token token = (Token) query.getSingleResult();
+		
+		return token;
+	}
 
 	/*@Override
 	@Transactional
@@ -203,19 +217,7 @@ public class TokenRepositoryImpl implements TokenRepository {
 		return false;
 	}
 
-	@Override
-	public Token getTokenByEmployeeId(int emplId) {
-		
-		String sql = "SELECT * FROM token WHERE employee_id = ?";
-		
-		Query query = entityManager.createNativeQuery(sql, Token.class);
-		
-		query.setParameter(1, emplId);
-		
-		Token token = (Token) query.getSingleResult();
-		
-		return token;
-	}
+
 
 
 }

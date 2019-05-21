@@ -57,7 +57,7 @@ public class LoginView extends VerticalLayout {
 			Employee employee = checkCredentials(email.getValue(), password.getValue());
 			if(employee != null) {
 				if(employee.getRoles().get(0).getRid() == 1) {
-					login.getUI().ifPresent(ui -> ui.navigate("manager"));
+					login.getUI().ifPresent(ui ->{ ui.navigate("manager"); });
 				}
 				else {
 					login.getUI().ifPresent(ui -> ui.navigate("employee"));

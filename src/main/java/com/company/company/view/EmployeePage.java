@@ -11,10 +11,14 @@ public class EmployeePage extends VerticalLayout {
 
 	public EmployeePage() {
 		
+		add(new Button("Logout", e -> logout()));
+		
 		button.addClickListener(e -> e.getButton());
 		
 		add(button);
 	}
 	
-	
+	void logout() {
+		System.out.println();
+	}
 }
