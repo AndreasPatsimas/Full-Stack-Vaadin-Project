@@ -5,11 +5,13 @@ import com.company.company.model.entity.Token;
 
 public interface TokenService {
 
-	public Token getTokenByEmployeeId(int emplId);
+	public int getEmployeeIdOfToken(String uuid);
 	
 	public void touchToken(String uuid);
 	
-	public void createToken(String uuid, Employee employee);
+	public void createToken(Employee employee);
 	
 	public void deleteToken(String uuid);
+	
+	public Token getTokenByEmployeeId(int emplId);
 }

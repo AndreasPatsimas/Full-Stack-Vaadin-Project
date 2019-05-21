@@ -1,6 +1,7 @@
 package com.company.company.model.service_impl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,10 @@ public class TokenServiceImpl implements TokenService {
 	}
 
 	@Override
-	public void createToken(String uuid, Employee employee) {
+	public void createToken(Employee employee) {
+		
+		String uuid = UUID.randomUUID().toString();
+		
 		tokenRepository.createToken(uuid, employee);
 	}
 
@@ -57,6 +61,12 @@ public class TokenServiceImpl implements TokenService {
 		tokenRepository.deleteById(uuid);
 	}
 
+	@Override
+	public int getEmployeeIdOfToken(String uuid) {
+		
+		return tokenRepository.getEmployeeIdOfToken(uuid);
+	}
+	
 	@Override
 	public Token getTokenByEmployeeId(int emplId) {
 		

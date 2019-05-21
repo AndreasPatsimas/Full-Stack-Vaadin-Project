@@ -94,10 +94,8 @@ public class EmployeeRestController {
 					tokenService.touchToken(token.getUuId());
 				}
 				catch(Exception ex) {
-					
-					String uuid = UUID.randomUUID().toString();
-					
-					tokenService.createToken(uuid, employee);
+
+					tokenService.createToken(employee);
 				}
 
 				return employee;

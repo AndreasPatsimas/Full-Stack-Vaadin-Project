@@ -47,6 +47,20 @@ public class TokenRepositoryImpl implements TokenRepository {
 	}
 	
 	@Override
+	public int getEmployeeIdOfToken(String uuid) {
+		
+		String sql = "SELECT employee_id FROM token WHERE uuid = ?";
+		
+		Query query = entityManager.createNativeQuery(sql, Token.class);
+		
+		query.setParameter(1, uuid);
+		
+		int employeeId = (Integer) query.getSingleResult();
+		
+		return employeeId;
+	}
+	
+	@Override
 	public Token getTokenByEmployeeId(int emplId) {
 		
 		String sql = "SELECT * FROM token WHERE employee_id = ?";
@@ -216,8 +230,6 @@ public class TokenRepositoryImpl implements TokenRepository {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 
 
 }

@@ -14,5 +14,7 @@ public interface TokenRepository extends JpaRepository<Token, String> {
 	
 	/*@Query(value = "SELECT * FROM TOKEN t WHERE t.employee.emplId = 1", 
 			  nativeQuery = true)*/
+	public int getEmployeeIdOfToken(String uuid);
+	
 	public Token getTokenByEmployeeId(int emplId);
 }
