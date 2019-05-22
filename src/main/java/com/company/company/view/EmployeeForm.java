@@ -29,13 +29,13 @@ public class EmployeeForm extends FormLayout {
 
 	private Binder<Employee> binder = new Binder<>(Employee.class);
 
-	private MainView mainView;
+	private ManagerView managerView;
 
 	private RestClient rc = new RestClient();
 
-	public EmployeeForm(MainView mainView) {
+	public EmployeeForm(ManagerView managerView) {
 
-		this.mainView = mainView;
+		this.managerView = managerView;
 
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
 		save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -90,7 +90,7 @@ public class EmployeeForm extends FormLayout {
 		} catch (Exception ex) {
 			rc.postData("http://localhost:8080/employee", employee);
 		}
-		mainView.employeeList();
+		managerView.employeeList();
 		setEmployee(null);
 		UI.getCurrent().getPage().reload();
 	}
@@ -99,7 +99,7 @@ public class EmployeeForm extends FormLayout {
 
 		Employee employee = binder.getBean();
 		rc.deleteData("http://localhost:8080/employee/" + employee.getEmplId());
-		mainView.employeeList();
+		managerView.employeeList();
 		setEmployee(null);
 		UI.getCurrent().getPage().reload();
 	}

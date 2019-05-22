@@ -39,7 +39,7 @@ public class EmployeeRestController {
 	}
 	
 	@GetMapping(value = "employees")
-	public List<Employee> getEmployees(HttpSession session){
+	public List<Employee> getEmployees(){
 		
 		return employeeService.findAll();
 	}
@@ -80,45 +80,6 @@ public class EmployeeRestController {
 		return employee;
 	}
 	
-	@GetMapping(value = "login/{email}/{password}")
-	public Employee checkCredentials(@PathVariable("email") String email, @PathVariable("password") String password) {
-		
-		Employee employee = employeeService.findByEmail(email);
-		
-		try {
-			if(employee.getEmail().equals(email) && 
-				CryptoConverter.decrypt(employee.getPassword()).equals(password)) {
-				
-				try {
-					Token token = tokenService.getTokenByEmployeeId(employee.getEmplId());
-					tokenService.touchToken(token.getUuId());
-				}
-				catch(Exception ex) {
-
-					tokenService.createToken(employee);
-				}
-
-				return employee;
-			}
-			else {
-				return null;
-			}
-		}
-		catch(Exception ex) {
-			return null;
-		}
-
-	}
-	
-	@GetMapping(value = "logout/{emplId}")
-	public String logout(@PathVariable("emplId") int emplId) {
-
-		Token token = tokenService.getTokenByEmployeeId(emplId);
-		
-		tokenService.deleteToken(token.getUuId());
-		
-		return "Token was destroyed with employee -id: "+emplId;
-	}
 	
 	@PostMapping(value = "employee")
 	public Employee saveEmployee (@RequestBody Employee employee) {
@@ -144,12 +105,4 @@ public class EmployeeRestController {
 		return employee;
 	}
 	
-	@DeleteMapping(value = "employee/{employeeId}")
-	public String deleteEmployee(@PathVariable("employeeId") int emplId) {
-			
-		employeeService.deleteEmployee(emplId);
-		
-		return "Deleted Employee with id -"+emplId;
-
-	}
 }

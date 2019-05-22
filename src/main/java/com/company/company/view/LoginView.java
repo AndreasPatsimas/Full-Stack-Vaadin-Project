@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import com.company.company.client.RestClient;
 import com.company.company.model.entity.Employee;
+import com.company.company.model.entity.Token;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
@@ -54,12 +56,14 @@ public class LoginView extends VerticalLayout {
 	
 	private void confirmLogin() {
 		if(binder.isValid()) {
-			Employee employee = checkCredentials(email.getValue(), password.getValue());
-			if(employee != null) {
-				if(employee.getRoles().get(0).getRid() == 1) {
+			Token token = checkCredentials(email.getValue(), password.getValue());
+			if(token != null) {
+				if(token.getEmployee().getRoles().get(0).getRid() == 1) {
+					UI.getCurrent().getSession().setAttribute("logManager", token);
 					login.getUI().ifPresent(ui ->{ ui.navigate("manager"); });
 				}
 				else {
+					UI.getCurrent().getSession().setAttribute("logEmployee", token);
 					login.getUI().ifPresent(ui -> ui.navigate("employee"));
 				}
 			}
@@ -72,7 +76,7 @@ public class LoginView extends VerticalLayout {
 		}
 	}
 	
-	private Employee checkCredentials(String emailUser, String passwordUser) {
+	private Token checkCredentials(String emailUser, String passwordUser) {
 		
 		
 		try {
@@ -81,13 +85,13 @@ public class LoginView extends VerticalLayout {
 			
 			ObjectMapper mapper = new ObjectMapper();
 			
-			Employee employee = new Employee();
+			Token token = new Token();
 			
-			employee = mapper.readValue(data, Employee.class);
+			token = mapper.readValue(data, Token.class);
 			
-			if(employee != null) {
+			if(token != null) {
 				
-				return employee;
+				return token;
 			}
 			else {
 				

@@ -58,7 +58,7 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public void deleteToken(String uuid) {
 		
-		tokenRepository.deleteById(uuid);
+		tokenRepository.deleteTokenByUuid(uuid);
 	}
 
 	@Override

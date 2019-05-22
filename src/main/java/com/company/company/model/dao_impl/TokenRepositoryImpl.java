@@ -49,15 +49,15 @@ public class TokenRepositoryImpl implements TokenRepository {
 	@Override
 	public int getEmployeeIdOfToken(String uuid) {
 		
-		String sql = "SELECT employee_id FROM token WHERE uuid = ?";
+		String sql = "SELECT * FROM token WHERE uuid = ?";
 		
 		Query query = entityManager.createNativeQuery(sql, Token.class);
 		
 		query.setParameter(1, uuid);
 		
-		int employeeId = (Integer) query.getSingleResult();
+		Token token = (Token) query.getSingleResult();
 		
-		return employeeId;
+		return token.getEmployee().getEmplId();
 	}
 	
 	@Override
@@ -72,6 +72,15 @@ public class TokenRepositoryImpl implements TokenRepository {
 		Token token = (Token) query.getSingleResult();
 		
 		return token;
+	}
+	
+	@Override
+	@Transactional
+	public void deleteTokenByUuid(String uuid) {
+		
+		entityManager.createNativeQuery("DELETE FROM token WHERE uuid = ?")
+	      .setParameter(1, uuid)
+	      .executeUpdate();
 	}
 
 	/*@Override

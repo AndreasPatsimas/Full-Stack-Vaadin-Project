@@ -17,4 +17,6 @@ public interface TokenRepository extends JpaRepository<Token, String> {
 	public int getEmployeeIdOfToken(String uuid);
 	
 	public Token getTokenByEmployeeId(int emplId);
+	
+	public void deleteTokenByUuid (String uuid);
 }
