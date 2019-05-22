@@ -2,6 +2,7 @@ package com.company.company.view;
 
 import com.company.company.client.RestClient;
 import com.company.company.model.entity.Token;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
@@ -55,5 +56,12 @@ public class EmployeePage extends VerticalLayout {
 		rc.deleteData("http://localhost:8080/logout/"+employee.getUuId());
 		UI.getCurrent().getSession().close();
 		logout.getUI().ifPresent(ui ->{ ui.navigate(""); });
+	}
+	
+	protected void onAttach(AttachEvent attachEvent) {
+		super.onAttach(attachEvent);
+		 if (UI.getCurrent().getSession().getAttribute("logEmployee") == null) {
+			 getUI().ifPresent(ui -> ui.navigate(""));
+		 }
 	}
 }

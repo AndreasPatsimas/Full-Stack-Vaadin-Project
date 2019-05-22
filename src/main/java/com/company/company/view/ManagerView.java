@@ -13,6 +13,7 @@ import com.company.company.model.entity.Role;
 import com.company.company.model.entity.Token;
 import com.company.company.model.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
@@ -27,7 +28,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 @Route("manager")
-public class ManagerView extends VerticalLayout{
+public class ManagerView extends VerticalLayout {
 	
 	private List<Employee> employees = new ArrayList<>();
 	
@@ -88,8 +89,13 @@ public class ManagerView extends VerticalLayout{
 		
 		grid.asSingleSelect().addValueChangeListener(event ->
         form.setEmployee(grid.asSingleSelect().getValue()));
-		
-		
+	}
+	
+	protected void onAttach(AttachEvent attachEvent) {
+		super.onAttach(attachEvent);
+		 if (UI.getCurrent().getSession().getAttribute("logManager") == null) {
+			 getUI().ifPresent(ui -> ui.navigate(""));
+		 }
 	}
 	
 	public void employeeFilteredList(String filterText) {
@@ -143,5 +149,6 @@ public class ManagerView extends VerticalLayout{
 		UI.getCurrent().getSession().close();
 		logout.getUI().ifPresent(ui ->{ ui.navigate(""); });
 	}
+	
 	
 }
