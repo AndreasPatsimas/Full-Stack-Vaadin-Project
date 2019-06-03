@@ -34,7 +34,6 @@ public class LoginView extends VerticalLayout {
 	
 	public LoginView()  {
 		
-		
 		login.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 		
 		login.addClickListener(e -> confirmLogin());
